@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#022c22" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>القرآن الكريم</title>
+    
+    <!-- Google Identity Services & Client Library -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://apis.google.com/js/api.js" async defer></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              emerald: {
+                950: '#022c22',
+                900: '#064e3b',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root {
+        --deep-emerald: #022c22;
+        --royal-emerald: #064e3b;
+        --accent-gold: #fbbf24;
+      }
+      body {
+        font-family: 'Tajawal', sans-serif;
+        background-color: #f8fafc;
+        color: #0f172a;
+        -webkit-tap-highlight-color: transparent;
+        overflow-x: hidden;
+        margin: 0;
+        transition: background-color 0.5s ease, color 0.5s ease;
+      }
+      
+      html.dark body {
+        background-color: #010a09;
+        color: #f1f5f9;
+      }
+
+      .quran-font { font-family: 'Amiri', serif; }
+      
+      .bg-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(to bottom, rgba(248, 250, 252, 0.8), rgba(248, 250, 252, 0.95));
+        z-index: -1;
+        transition: background 0.5s ease;
+      }
+      
+      html.dark .bg-overlay {
+        background: linear-gradient(to bottom, rgba(1, 10, 9, 0.6), rgba(1, 10, 9, 0.95));
+      }
+      
+      .religious-bg {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-size: cover;
+        background-position: center;
+        z-index: -2;
+        transition: opacity 2s ease-in-out;
+        animation: kenburns 40s infinite alternate;
+      }
+
+      @keyframes kenburns {
+        0% { transform: scale(1) translate(0, 0); }
+        100% { transform: scale(1.2) translate(-20px, -20px); }
+      }
+
+      .zakhrafah-top {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 120px;
+        background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
+        background-repeat: repeat-x;
+        opacity: 0.1;
+        z-index: 60;
+        pointer-events: none;
+        mask-image: linear-gradient(to bottom, black, transparent);
+        -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+      }
+      
+      html.dark .zakhrafah-top { opacity: 0.3; }
+
+      .arabesque-pattern {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-image: url('https://www.transparenttextures.com/patterns/islamic-art.png');
+        opacity: 0.05;
+        z-index: -1;
+        pointer-events: none;
+      }
+      
+      html.dark .arabesque-pattern { opacity: 0.15; }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        transition: background 0.5s ease, border 0.5s ease;
+      }
+      
+      html.dark .glass-card {
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+      .corner-ornament {
+        position: fixed;
+        width: 150px; height: 150px;
+        background-image: url('https://img.icons8.com/ios-filled/200/fbbf24/arabesque.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.05;
+        z-index: 100;
+        pointer-events: none;
+      }
+      .top-right { top: -20px; right: -20px; }
+      .bottom-left { bottom: -20px; left: -20px; transform: rotate(180deg); }
+    </style>
+
+  <link rel="stylesheet" href="/index.css">
+    <script type="importmap">
+    {
+      "imports": {
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "react": "https://esm.sh/react@^19.2.3",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+        "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
+      }
+    }
+    </script>
+  <script type="module" crossorigin src="/assets/index-CeX76bkQ.js"></script>
+</head>
+  <body>
+    <div class="zakhrafah-top"></div>
+    <div class="corner-ornament top-right"></div>
+    <div class="corner-ornament bottom-left"></div>
+    <div class="religious-bg" id="dynamic-bg"></div>
+    <div class="bg-overlay"></div>
+    <div class="arabesque-pattern"></div>
+    <div id="root"></div>
+    <script>
+      const images = [
+        'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&q=100&w=1920',
+        'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=100&w=1920',
+        'https://images.unsplash.com/photo-1564769662533-4f00a87b4056?auto=format&fit=crop&q=100&w=1920'
+      ];
+      let currentIndex = 0;
+      const bgElement = document.getElementById('dynamic-bg');
+      bgElement.style.backgroundImage = `url('${images[0]}')`;
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length;
+        bgElement.style.opacity = '0';
+        setTimeout(() => {
+          bgElement.style.backgroundImage = `url('${images[currentIndex]}')`;
+          bgElement.style.opacity = '1';
+        }, 2000);
+      }, 15000);
+    </script>
+  </body>
+</html>
